@@ -16,19 +16,21 @@ else
 if [ $? == 0 ]; 
 then 
     ####FOR LINUX####
-    # # Setup Kubectl get ns 
-    # curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/linux/amd64/kubectl --silent
-    # chmod +x kubectl
-    # mv kubectl ~/.local/bin
-    # echo ${green}"Please continue" ${reset}
-
-    # Download the macOS version of kubectl on MAC
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl" --silent
-    # Make the kubectl binary executable
+    # Setup Kubectl get ns 
+    curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/linux/amd64/kubectl --silent
     chmod +x kubectl
-    # Move kubectl to a directory that's in your PATH (e.g., /usr/local/bin)
-    sudo mv kubectl /usr/local/bin
+    # Create the destination directory if it doesn't exist
+    mkdir -p ~/.local/bin
+    mv kubectl ~/.local/bin
     echo ${green}"Please continue" ${reset}
+
+    # # Download the macOS version of kubectl on MAC
+    # curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl" --silent
+    # # Make the kubectl binary executable
+    # chmod +x kubectl
+    # # Move kubectl to a directory that's in your PATH (e.g., /usr/local/bin)
+    # sudo mv kubectl /usr/local/bin
+    # echo ${green}"Please continue" ${reset}
 
     else 
         echo ${red} """
@@ -81,3 +83,7 @@ else
 fi
 
 # Setup python aws cli
+
+
+  git config --global user.email "dianakutca14@gmail.com"
+  git config --global user.name "dianakutca"

@@ -1,5 +1,5 @@
 variable "vpc_name" {
-  default = "Vpc"
+  default = ""
 }
 
 variable "region" {

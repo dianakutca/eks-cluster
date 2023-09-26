@@ -3,13 +3,11 @@
 resource "aws_security_group" "eks_cluster_sg" {
   name_prefix = "eks_cluster_sg-"
   description = "Security group for EKS cluster"
-  vpc_id      = module.vpc.vpc_id
 }
 
 resource "aws_security_group" "eks_worker_sg" {
   name_prefix = "eks_worker_sg-"
   description = "Security group for EKS worker nodes"
-  vpc_id      = module.vpc.vpc_id
 }
 
 

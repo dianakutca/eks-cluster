@@ -7,5 +7,5 @@ output "private_subnet_ids" {
 }
 
 output "vpc_id" {
-  value = aws_vpc.Vpc.id
+  value = aws_vpc.eks-vpc.id
 }

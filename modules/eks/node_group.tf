@@ -2,7 +2,7 @@ resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "eks-node-group"
   node_role_arn   = aws_iam_role.eks_worker_role.arn
-  subnet_ids      = module.vpc.private_subnet_ids
+  subnet_ids      = module.eks-vpc.private_subnet_ids
 
   ami_type       = "AL2_x86_64" # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64, CUSTOM
   capacity_type  = "ON_DEMAND"  # ON_DEMAND, SPOT

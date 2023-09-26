@@ -1,5 +1,5 @@
 resource "aws_subnet" "public1" {
-  vpc_id                  = aws_vpc.eks-vpc.id
+  vpc_id                  = aws_vpc.eks_vpc.id
   cidr_block              = var.public_subnet1
   availability_zone       = "${var.region}a"
   map_public_ip_on_launch = true
@@ -9,7 +9,7 @@ resource "aws_subnet" "public1" {
 }
 
 resource "aws_subnet" "public2" {
-  vpc_id                  = aws_vpc.eks-vpc.id
+  vpc_id                  = aws_vpc.eks_vpc.id
   cidr_block              = var.public_subnet2
   availability_zone       = "${var.region}b"
   map_public_ip_on_launch = true
@@ -19,7 +19,7 @@ resource "aws_subnet" "public2" {
 }
 
 resource "aws_subnet" "public3" {
-  vpc_id                  = aws_vpc.eks-vpc.id
+  vpc_id                  = aws_vpc.eks_vpc.id
   cidr_block              = var.public_subnet3
   availability_zone       = "${var.region}c"
   map_public_ip_on_launch = true

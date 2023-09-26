@@ -1,4 +1,5 @@
-module "eks-vpc" {
+module "eks_vpc" {
+  vpc_name        = "eks_vpc"
   source          = "../modules/vpc"
   region          = "us-east-1"
   cidr_block      = "10.100.0.0/16"

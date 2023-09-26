@@ -11,6 +11,6 @@ resource "aws_launch_template" "eks-launch-template" {
 
 
   # Add security group IDs here
-  vpc_security_group_ids = aws_security_group.eks_worker_sg.id
+  vpc_security_group_ids = [aws_security_group.eks_worker_sg.id]
 
 }

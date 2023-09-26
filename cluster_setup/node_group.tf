@@ -1,4 +1,4 @@
-resource "aws_eks_node_group" "my_node_group" {
+resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "eks-node-group"
   node_role_arn   = aws_iam_role.eks_worker_role.arn
@@ -22,7 +22,8 @@ resource "aws_eks_node_group" "my_node_group" {
     aws_iam_role_policy_attachment.cluster-AmazonEC2ContainerRegistryReadOnly
   ]
 
-  node_group_launch_template {
-    launch_template_name = aws_launch_template.eks-launch-template.name
+  launch_template {
+    name = aws_launch_template.eks-launch-template.name
+    version = "$Latest"
   }
 }

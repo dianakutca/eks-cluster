@@ -3,7 +3,7 @@ resource "aws_security_group" "eks_cluster_sg" {
   description = "Security group for EKS cluster"
   vpc_id      = aws_vpc.my_vpc.id
 
-  # Allow control plane traffic only from worker nodes
+  # Allow control plane traffic only from worker nodes, pods to communicate with the cluster API Server
   ingress {
     from_port   = 443
     to_port     = 443
@@ -33,12 +33,20 @@ resource "aws_security_group" "eks_worker_sg" {
     security_groups = [aws_security_group.eks_cluster_sg.id]
   }
 
-  # Allow inbound traffic from other worker nodes (for inter-node communication)
+  # Allow inbound traffic from other worker nodes (for inter-node communication), "Allow node to communicate with each other"
   ingress {
     from_port   = 0
     to_port     = 65535
     protocol    = "tcp"
     self        = true
+  }
+
+  # Allow worker Kubelets and pods to receive communication from the cluster control plane
+  ingress {
+    from_port   = 1025
+    to_port     = 65535
+    protocol    = "tcp"
+    security_groups = [aws_security_group.eks_worker_sg.id]
   }
 
   # Allow outbound traffic to the Internet (for updates, package installations, etc.)
@@ -48,4 +56,7 @@ resource "aws_security_group" "eks_worker_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
 }
+
+

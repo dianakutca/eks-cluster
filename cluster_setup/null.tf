@@ -8,7 +8,6 @@ data "terraform_remote_state" "eks_output" {
 }
 
 resource "null_resource" "generate_config_map" {
-  count      = 1
   depends_on = [module.eks]
   triggers = {
     node_role_arn = data.terraform_remote_state.eks_output.outputs.worker_node_role_arn

@@ -5,8 +5,12 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-# - rolearn: arn:aws:iam::302667072600:role/terraform-eks-dev-node
+    - rolearn: ${ROLE_ARN}
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
+  mapUsers: |
+    - userarn: arn:aws:iam::${AWS_ACCOUNT}:root
+      groups:
+        - system:masters

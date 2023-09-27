@@ -17,3 +17,8 @@ output "cluster_name" {
   description = "Kubernetes Cluster Name"
   value       = var.cluster-name
 }
+
+
+output "worker_node_role_arn" {
+  value = aws_iam_role.eks_worker_role.arn
+}

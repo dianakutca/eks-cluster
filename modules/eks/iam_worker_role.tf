@@ -28,3 +28,5 @@ resource "aws_iam_role_policy_attachment" "cluster-AmazonEC2ContainerRegistryRea
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.eks_worker_role.name
 }
+
+

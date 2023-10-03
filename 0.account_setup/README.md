@@ -62,3 +62,9 @@ source ../scripts/login.sh  (or bash ../scripts/login.sh)
 
 
 aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
+
+
+kubectl -n nginx-ingress port-forward svc/nginx-ingress-ingress-nginx-controller 8443:443
+kubectl -n nginx-ingress port-forward svc/<nginx-service-name> 8443:443
+
+kubectl describe service nginx-ingress-ingress-nginx-controller -n nginx-ingress

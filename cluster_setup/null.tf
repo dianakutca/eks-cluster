@@ -1,5 +1,6 @@
 resource "null_resource" "generate_config_map" {
-  depends_on = [ module.eks, module.eks_vpc ]
+  count      = 1
+  depends_on = [module.eks, module.eks_vpc]
   triggers = {
     node_role_arn = module.eks.worker_node_role_arn
     cluster_name  = module.eks.cluster_name

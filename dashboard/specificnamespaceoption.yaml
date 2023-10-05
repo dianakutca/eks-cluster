@@ -1,12 +1,24 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: dashboard-full-access
+  name: dashboard-read-only
 rules:
-- apiGroups: ["*"]
-  resources: ["*"]
-  verbs: ["*"]
-
+- apiGroups: [""]
+  resources: 
+  - "pods"
+  - "services"
+  verbs:
+  - "get"
+  - "list"
+  - "watch"
+- apiGroups: ["apps"]
+  resources: 
+  - "deployments"
+  - "replicasets"
+  verbs: 
+  - "get"
+  - "list"
+  - "watch"
 
 ---
 
@@ -17,7 +29,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: dashboard-full-access
+  name: dashboard-read-only
 subjects:
 - kind: ServiceAccount
   name: test

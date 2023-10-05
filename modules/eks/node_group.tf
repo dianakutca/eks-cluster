@@ -22,7 +22,7 @@ resource "aws_eks_node_group" "eks_node_group" {
   ]
 
   launch_template {
-    name = aws_launch_template.eks-launch-template.name
+    name    = aws_launch_template.eks-launch-template.name
     version = "$Latest"
   }
 }

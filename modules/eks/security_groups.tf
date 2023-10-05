@@ -55,7 +55,7 @@ resource "aws_security_group_rule" "eks_worker_sg_inter_node_ingress" {
 }
 
 #  Allow worker Kubelets and pods to receive communication from the cluster control plane /ingress for node group
-resource "aws_security_group_rule" "eks_worker_sg_kubelet_ingress" {
+resource "aws_security_group_rule" "eks_worker_sg1_kubelet_ingress" {
   type                     = "ingress"
   from_port                = 1025
   to_port                  = 65535
@@ -63,6 +63,16 @@ resource "aws_security_group_rule" "eks_worker_sg_kubelet_ingress" {
   security_group_id        = aws_security_group.eks_worker_sg.id
   source_security_group_id = aws_security_group.eks_worker_sg.id
 }
+
+resource "aws_security_group_rule" "eks_worker_sg_kubelet_ingress" {
+  type                     = "ingress"
+  from_port                = 10250
+  to_port                  = 10250
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.eks_worker_sg.id
+  cidr_blocks       =       ["172.31.0.0/16"]
+}
+
 
 # Egress rule for eks_worker_sg, Allow outbound traffic to the Internet (for updates, package installations, etc.)
 resource "aws_security_group_rule" "eks_worker_sg_egress" {

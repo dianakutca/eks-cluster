@@ -68,3 +68,5 @@ kubectl -n nginx-ingress port-forward svc/nginx-ingress-ingress-nginx-controller
 kubectl -n nginx-ingress port-forward svc/<nginx-service-name> 8443:443
 
 kubectl describe service nginx-ingress-ingress-nginx-controller -n nginx-ingress
+
+terraform apply -var-file ../0.account_setup/configurations.tfvars

@@ -45,3 +45,30 @@ Dashboard accessible at: https://YOUR_IP:8443
 2. create service account 
 3. using file mail.yaml create Role, RoleBinding 
 
+``````
+TOKEN=$(kubectl get secret $(kubectl get serviceaccount test -n kubernetes-dashboard -o jsonpath='{.secrets[0].name}') -n kubernetes-dashboard -o jsonpath='{.data.token}' | base64 -d)
+
+CLUSTER_NAME=$(kubectl config get-contexts $(kubectl config current-context) | awk '{print $3}' | tail -n 1)
+
+
+kubectl config set-cluster ${CLUSTER_NAME} \
+--kubeconfig=dashboard-kubeconfig \
+--server=$(kubectl config view -o=jsonpath="{.clusters[?(@.name==\"${CLUSTER_NAME}\")].cluster.server}") \
+--certificate-authority=$(kubectl config view -o=jsonpath="{.clusters[?(@.name==\"${CLUSTER_NAME}\")].cluster.certificate-authority}")
+
+kubectl config set-credentials test-dashboard \
+--kubeconfig=dashboard-kubeconfig \
+--token="${TOKEN}"
+
+kubectl config set-context test-dashboard@${CLUSTER_NAME} \
+--kubeconfig=dashboard-kubeconfig \
+--cluster=${CLUSTER_NAME} \
+--user=test-dashboard
+
+kubectl config use-context test-dashboard@${CLUSTER_NAME} --kubeconfig=dashboard-kubeconfig
+
+``````
+
+# On EC2
+aws s3 cp /home/ec2-user/eks-cluster/dashboard-kubeconfig s3://terraform-project-dianakutca-eks-setup/
+

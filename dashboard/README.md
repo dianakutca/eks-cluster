@@ -41,4 +41,7 @@ Dashboard accessible at: https://YOUR_IP:8443
 
 ### Step2. Authenticating to the Dashboard
 
+1. Create secret
+2. create service account 
+3. using file mail.yaml create Role, RoleBinding 
 

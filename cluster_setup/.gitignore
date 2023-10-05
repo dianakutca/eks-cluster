@@ -1,0 +1,2 @@
+.terraform*
+config-map-aws-auth.yaml

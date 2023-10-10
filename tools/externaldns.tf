@@ -6,6 +6,16 @@ output "account_id" {
   value = data.aws_caller_identity.current.account_id
 }
 
+data "aws_eks_cluster" "existing_cluster" {
+  name = "terraform-eks-dev" 
+}
+output "eks_oidc_url" {
+  description = "The OIDC provider URL for the EKS cluster"
+  value       = data.aws_eks_cluster.existing_cluster.identity[0].oidc[0].issuer
+}
+
+
+
 resource "aws_iam_policy" "external-dns" {
   name        = "external-dns"
   description = "My external-dns"
@@ -47,12 +57,12 @@ resource "aws_iam_role" "external-dns-role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${data.terraform_remote_state.remote.outputs.oidc_provider}"
+        "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${data.aws_eks_cluster.existing_cluster.identity[0].oidc[0].issuer}"
       },
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
         "StringEquals": {
-          "${data.terraform_remote_state.remote.outputs.oidc_provider}:sub": "system:serviceaccount:external-dns:external-dns"
+          "${data.aws_eks_cluster.existing_cluster.identity[0].oidc[0].issuer}:sub": "system:serviceaccount:external-dns:external-dns"
         }
       }
     }
@@ -75,29 +85,29 @@ module "external-dns-terraform-k8s-namespace" {
   name   = "external-dns"
 }
 
-# module "external-dns-terraform-helm" {
-#   source               = "../modules/terraform-helm/"
-#   deployment_name      = "external-dns"
-#   deployment_namespace = module.external-dns-terraform-k8s-namespace.namespace
-#   chart                = "external-dns"
-#   chart_version        = var.external-dns-config["chart_version"]
-#   repository           = "https://charts.bitnami.com/bitnami"
-#   values_yaml          = <<EOF
-# commonAnnotations: {
-#   cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-# }
-# clusterDomain: "${var.domain_name}"
+module "external-dns-terraform-helm" {
+  source               = "../modules/helm-charts/"
+  deployment_name      = "external-dns"
+  deployment_namespace = module.external-dns-terraform-k8s-namespace.namespace
+  chart                = "external-dns"
+  chart_version        = var.external-dns-config["chart_version"]
+  repository           = "https://charts.bitnami.com/bitnami"
+  values_yaml          = <<EOF
+commonAnnotations: {
+  cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+}
+clusterDomain: "${var.domain_name}"
 
-# aws:
-#   region: "${var.region}"
-#   zoneType: public
-# rbac:
-#   create: true
+aws:
+  region: "${var.region}"
+  zoneType: public
+rbac:
+  create: true
 
-# serviceAccount:
-#   create: true
-#   name: "external-dns"
-#   annotations: 
-#     eks.amazonaws.com/role-arn: "${aws_iam_role.external-dns-role.arn}"
-# EOF
-# }
+serviceAccount:
+  create: true
+  name: "external-dns"
+  annotations: 
+    eks.amazonaws.com/role-arn: "${aws_iam_role.external-dns-role.arn}"
+EOF
+}

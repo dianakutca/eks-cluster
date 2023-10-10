@@ -22,3 +22,8 @@ output "cluster_name" {
 output "worker_node_role_arn" {
   value = module.eks.worker_node_role_arn
 }
+
+output "eks_oidc_url" {
+  description = "The OIDC provider URL for the EKS cluster"
+  value       = module.eks.identity[0].oidc[0].issuer
+}

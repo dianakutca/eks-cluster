@@ -83,3 +83,12 @@ resource "aws_security_group_rule" "eks_worker_sg_egress" {
   security_group_id = aws_security_group.eks_worker_sg.id
   cidr_blocks       = ["0.0.0.0/0"]
 }
+
+resource "aws_security_group_rule" "eks_worker_ssh_ingress" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.eks_worker_sg.id
+  cidr_blocks       = ["172.31.0.0/16"]
+}

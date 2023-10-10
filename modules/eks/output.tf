@@ -23,3 +23,13 @@ output "worker_node_role_arn" {
   value = aws_iam_role.eks_worker_role.arn
 }
 
+
+output "eks_oidc_url" {
+  description = "The OIDC provider URL for the EKS cluster"
+  value       = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
+}
+
+output "identity" {
+  description = "Identity attributes of the EKS Cluster"
+  value       = aws_eks_cluster.cluster.identity
+}

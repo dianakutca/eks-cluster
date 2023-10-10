@@ -252,3 +252,4 @@ Handling connection for 8443
 Handling connection for 8443
 Handling connection for 8443
 Handling connection for 8443
+E1006 01:36:50.715474   10244 portforward.go:234] lost connection to pod

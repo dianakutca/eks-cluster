@@ -61,7 +61,7 @@ resource "aws_security_group_rule" "eks_worker_sg1_kubelet_ingress" {
   to_port                  = 65535
   protocol                 = "tcp"
   security_group_id        = aws_security_group.eks_worker_sg.id
-  source_security_group_id = aws_security_group.eks_worker_sg.id
+  source_security_group_id = aws_security_group.eks_cluster_sg.id
 }
 
 resource "aws_security_group_rule" "eks_worker_sg_kubelet_ingress" {
@@ -70,7 +70,7 @@ resource "aws_security_group_rule" "eks_worker_sg_kubelet_ingress" {
   to_port                  = 10250
   protocol                 = "tcp"
   security_group_id        = aws_security_group.eks_worker_sg.id
-  cidr_blocks       =       ["172.31.0.0/16"]
+  cidr_blocks       =       ["0.0.0.0/0"]
 }
 
 

@@ -14,8 +14,6 @@ output "eks_oidc_url" {
   value       = data.aws_eks_cluster.existing_cluster.identity[0].oidc[0].issuer
 }
 
-
-
 resource "aws_iam_policy" "external-dns" {
   name        = "external-dns"
   description = "My external-dns"
@@ -26,7 +24,8 @@ resource "aws_iam_policy" "external-dns" {
         {
           "Effect" : "Allow",
           "Action" : [
-            "route53:ChangeResourceRecordSets"
+            "route53:ChangeResourceRecordSets",
+            "route53:ListResourceRecordSets"
           ],
           "Resource" : [
             "arn:aws:route53:::hostedzone/*"
@@ -35,8 +34,7 @@ resource "aws_iam_policy" "external-dns" {
         {
           "Effect" : "Allow",
           "Action" : [
-            "route53:ListHostedZones",
-            "route53:ListResourceRecordSets"
+            "route53:ListHostedZones"
           ],
           "Resource" : [
             "*"
@@ -46,6 +44,8 @@ resource "aws_iam_policy" "external-dns" {
     }
   )
 }
+
+
 
 
 resource "aws_iam_role" "external-dns-role" {
@@ -96,11 +96,12 @@ module "external-dns-terraform-helm" {
 commonAnnotations: {
   cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
 }
-clusterDomain: "${var.domain_name}"
 
 aws:
   region: "${var.region}"
   zoneType: public
+  provider: "aws"
+
 rbac:
   create: true
 

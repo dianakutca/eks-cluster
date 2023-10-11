@@ -9,3 +9,4 @@
 # output oidc_provider_arn {
 #   value = data.terraform_remote_state.remote.outputs.oidc_provider_arn
 # }
+# # clusterDomain: "${var.domain_name}"

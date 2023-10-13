@@ -19,9 +19,6 @@
 # }
 
 
-
-
-
 resource "aws_launch_template" "eks-launch-template" {
   name_prefix = "eks-launch-template-"
   key_name    = aws_key_pair.eks-key.key_name

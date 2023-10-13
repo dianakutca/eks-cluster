@@ -7,45 +7,45 @@ output "account_id" {
 }
 
 data "aws_eks_cluster" "existing_cluster" {
-  name = "terraform-eks-dev" 
+  name = "terraform-eks-dev"
+
 }
 output "eks_oidc_url" {
   description = "The OIDC provider URL for the EKS cluster"
   value       = data.aws_eks_cluster.existing_cluster.identity[0].oidc[0].issuer
 }
 
-resource "aws_iam_policy" "external-dns" {
-  name        = "external-dns"
-  description = "My external-dns"
-  policy = jsonencode(
-    {
-      "Version" : "2012-10-17",
-      "Statement" : [
-        {
-          "Effect" : "Allow",
-          "Action" : [
-            "route53:ChangeResourceRecordSets",
-            "route53:ListResourceRecordSets"
-          ],
-          "Resource" : [
-            "arn:aws:route53:::hostedzone/*"
-          ]
-        },
-        {
-          "Effect" : "Allow",
-          "Action" : [
-            "route53:ListHostedZones"
-          ],
-          "Resource" : [
-            "*"
-          ]
-        }
-      ]
-    }
-  )
+resource "aws_iam_policy" "external_dns" {
+  name        = "external-dns-dev"
+  description = "Policy using OIDC to give the EKS external dns ServiceAccount permissions to update Route53"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+  {
+     "Effect": "Allow",
+     "Action": [
+       "route53:ChangeResourceRecordSets"
+     ],
+     "Resource": [
+       "arn:aws:route53:::hostedzone/*"
+     ]
+   },
+   {
+     "Effect": "Allow",
+     "Action": [
+       "route53:ListHostedZones",
+       "route53:ListResourceRecordSets"
+     ],
+     "Resource": [
+       "*"
+     ]
+   }
+  ]
 }
-
-
+EOF
+}
 
 
 resource "aws_iam_role" "external-dns-role" {
@@ -57,12 +57,12 @@ resource "aws_iam_role" "external-dns-role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${data.aws_eks_cluster.existing_cluster.identity[0].oidc[0].issuer}"
+        "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${replace(data.aws_eks_cluster.existing_cluster.identity[0].oidc[0].issuer, "https://", "")}"
       },
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
         "StringEquals": {
-          "${data.aws_eks_cluster.existing_cluster.identity[0].oidc[0].issuer}:sub": "system:serviceaccount:external-dns:external-dns"
+          "${replace(data.aws_eks_cluster.existing_cluster.identity[0].oidc[0].issuer, "https://", "")}:sub": "system:serviceaccount:external-dns:external-dns"     
         }
       }
     }
@@ -75,9 +75,8 @@ EOF
 resource "aws_iam_policy_attachment" "external-dns" {
   name       = "external-dns-attachment"
   roles      = [aws_iam_role.external-dns-role.name]
-  policy_arn = aws_iam_policy.external-dns.arn
+  policy_arn = aws_iam_policy.external_dns.arn
 }
-
 
 
 module "external-dns-terraform-k8s-namespace" {
@@ -100,15 +99,15 @@ commonAnnotations: {
 aws:
   region: "${var.region}"
   zoneType: public
-  provider: "aws"
-
+  policy: sync
+  provider: aws
 rbac:
-  create: true
-
+  create: true 
 serviceAccount:
   create: true
   name: "external-dns"
   annotations: 
     eks.amazonaws.com/role-arn: "${aws_iam_role.external-dns-role.arn}"
+    
 EOF
 }

@@ -14,6 +14,6 @@ variable "external-dns-config" {
 }
 
 variable "domain_name" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }

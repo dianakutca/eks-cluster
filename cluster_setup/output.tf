@@ -1,3 +1,11 @@
+output "vpc_id" {
+  value = module.eks_vpc.vpc_id
+}
+
+output "private_subnet_ids" {
+  value = module.eks_vpc.private_subnet_ids
+}
+
 output "cluster_endpoint" {
   description = "Endpoint for EKS control plane"
   value       = module.eks.cluster_endpoint
@@ -29,14 +37,6 @@ output "eks_oidc_url" {
 }
 
 
-output cluster_oidc_issuer_url {
-  value = module.eks.cluster_oidc_issuer_url
-}
-
 output oidc_provider {
   value = module.eks.oidc_provider
-}
-
-output oidc_provider_arn {
-  value = module.eks.oidc_provider_arn
 }

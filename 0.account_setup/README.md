@@ -50,7 +50,7 @@ aws_account = "YOUR_AWS_ACCOUNT_NUMBER"
 ```
 ----
 ### Step4
-Check script login.sh and choose option if you need download kubectl on MAC or LINUX or add commands for your OS
+Check script scripts/login.sh and choose option if you need download kubectl on MAC or LINUX or add commands for your OS (by default its set for Linux)
 
 ---
 
@@ -59,6 +59,9 @@ Run:
 source ../scripts/login.sh  (or bash ../scripts/login.sh)
 
 ```
+
+
+
 
 
 aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)

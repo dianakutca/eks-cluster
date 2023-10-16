@@ -5,7 +5,7 @@ resource "aws_eks_node_group" "eks_node_group" {
   subnet_ids      = var.subnet_ids
 
   ami_type       = "AL2_x86_64" # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64, CUSTOM
-  capacity_type  = "ON_DEMAND"  # ON_DEMAND, SPOT
+  capacity_type  = "SPOT"  # ON_DEMAND, SPOT
   instance_types = ["t2.medium"]
 
 

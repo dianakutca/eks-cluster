@@ -31,6 +31,7 @@ resource "aws_launch_template" "eks-launch-template" {
       volume_size = 20
     }
   }
+  #Enable instance type if need any specific 
   # instance_type = "t2.medium"
 
 

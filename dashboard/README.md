@@ -13,7 +13,7 @@ Install Helm (if it isn't already installed):
 # helm version
 ``````
 
-Navigate to :
+Documentation used below : 
 ```
 https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard
 ```
@@ -23,9 +23,9 @@ Deploy the Kubernetes Dashboard using default values.yaml file:
 
 
 ``````
-# helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 
-# helm install kubernetes-dashboard  kubernetes-dashboard/kubernetes-dashboard  -f values.yaml
+helm install kubernetes-dashboard  kubernetes-dashboard/kubernetes-dashboard  -f values.yaml
 ``````
 
 Follow the instruction of the output
@@ -41,7 +41,7 @@ Dashboard accessible at: https://YOUR_IP:8443
 
 ### Step2. Authenticating to the Dashboard
 
-1. Create secret
+1. Create secret (kubectl apply my-sec.yaml)
 2. create service account 
 3. using file mail.yaml create Role, RoleBinding 
 

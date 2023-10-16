@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "terraform-project-dianakutca-eks-setup"
+    bucket = ""
     key = "dev/home/ec2-user/eks-cluster/scripts"
     region = "us-east-2"
   }

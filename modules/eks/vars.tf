@@ -3,6 +3,10 @@ variable "path_to_public_key" {
   type    = string
 }
 
+variable "key_name" {
+  default = ""
+  type    = string
+}
 
 variable "cluster-name" {
   default = ""

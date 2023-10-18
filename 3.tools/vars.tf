@@ -13,17 +13,53 @@ variable "external-dns-config" {
   }
 }
 
+variable "cert-manager-config" {
+  type        = map(any)
+  description = "Please define cert-manager configurations"
+  default = {
+    deployment_name = "cert-manager"
+    chart_version   = "1.13.1"
+  }
+} 
+
 variable "domain_name" {
   type    = string
   default = ""
 }
 
-variable "bucket" {
+variable "email" {
+  type    = string
   default = ""
-  type = string
 }
 
-variable "dynamodb_table" {
-  default = ""
-  type = string
+variable "jenkins-config" {
+  type        = map(any)
+  description = "Please define jenkins configurations"
+  default = {
+    deployment_name = "jenkins"
+    chart_version   = "4.7.2"
+  }
+}
+variable "username" {
+  description = "Please provide a region"
+  type        = string
+  default     = ""
+
+}
+
+variable "password" {
+  description = "Please provide a region"
+  type        = string
+  sensitive   = true 
+}
+
+#https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/README.md#migrating-from-stablenginx-ingress
+variable "ingress-controller-config" {
+  type        = map(any)
+  description = "Please define ingress configurations"
+  default = {
+    deployment_name          = "ingress-controller"
+    chart_version            = "4.8.2"
+    loadBalancerSourceRanges = " 24.14.156.131"
+  }
 }

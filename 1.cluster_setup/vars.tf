@@ -3,29 +3,19 @@ variable "aws_account" {
   type    = string
 }
 
-variable "bucket" {
-  default = ""
-  type = string
-}
-
-variable "dynamodb_table" {
-  default = ""
-  type = string
-}
-
 variable "region" {
   default = ""
-  type = string
+  type    = string
 }
 
 variable "path_to_public_key" {
   default = ""
-  type = string
+  type    = string
 }
 
 variable "cluster-name" {
   default = ""
-  type = string
+  type    = string
 }
 
 variable "vpc_name" {

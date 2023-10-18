@@ -37,6 +37,6 @@ output "eks_oidc_url" {
 }
 
 
-output oidc_provider {
+output "oidc_provider" {
   value = module.eks.oidc_provider
 }

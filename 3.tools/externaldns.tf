@@ -99,8 +99,8 @@ commonAnnotations: {
 aws:
   region: "${var.region}"
   zoneType: public
-  policy: sync
-  provider: aws
+policy: sync
+provider: aws
 rbac:
   create: true 
 serviceAccount:

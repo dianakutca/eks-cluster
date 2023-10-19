@@ -63,3 +63,24 @@ variable "ingress-controller-config" {
     loadBalancerSourceRanges = " 24.14.156.131"
   }
 }
+
+# This block is used to setup grafana
+variable "grafana-config" {
+  type = map(any)
+  default = {
+    deployment_name = "grafana"
+    chart_version   = "6.43.3"
+    adminPassword   = "password"
+    adminUser       = "admin"
+  }
+}
+
+# This block is used to setup prometheus
+variable "prometheus-config" {
+  type        = map(any)
+  description = "Please define prometheus configurations"
+  default = {
+    deployment_name = "prometheus"
+    chart_version   = "15.17.0"
+  }
+}

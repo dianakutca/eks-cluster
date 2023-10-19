@@ -20,7 +20,7 @@ controller:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-staging
       acme.cert-manager.io/http01-edit-in-place: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       ingress.kubernetes.io/ssl-redirect: "false"

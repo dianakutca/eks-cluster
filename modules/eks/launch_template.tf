@@ -28,7 +28,7 @@ resource "aws_launch_template" "eks-launch-template" {
   block_device_mappings {
     device_name = "/dev/xvda"
     ebs {
-      volume_size = 20
+      volume_size = 40
     }
   }
   #Enable instance type if need any specific 

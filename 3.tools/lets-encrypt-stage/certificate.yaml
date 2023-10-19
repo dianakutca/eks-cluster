@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mywebsite-cert-staging
+  namespace: default
+spec:
+  secretName: mywebsite-tls-staging
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  dnsNames:
+  - treenetsolution.com

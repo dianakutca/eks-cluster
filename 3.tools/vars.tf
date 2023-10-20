@@ -84,3 +84,12 @@ variable "prometheus-config" {
     chart_version   = "15.17.0"
   }
 }
+
+variable "argo-config" {
+  type        = map(any)
+  description = "Please define argo configurations"
+  default = {
+    deployment_name = "argo"
+    chart_version   = "5.20.5"
+  }
+}

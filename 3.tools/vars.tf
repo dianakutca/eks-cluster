@@ -70,8 +70,8 @@ variable "grafana-config" {
   default = {
     deployment_name = "grafana"
     chart_version   = "6.43.3"
-    adminPassword   = "password"
-    adminUser       = "admin"
+    adminPassword   = ""
+    adminUser       = ""
   }
 }
 

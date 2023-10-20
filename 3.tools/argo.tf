@@ -1,5 +1,5 @@
 module "argo-terraform-k8s-namespace" {
-  source = "../modules/terraform-k8s-namespace/"
+  source = "../modules/namespaces/"
   name   = "argocd"
 }
 
@@ -52,7 +52,7 @@ server:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      cert-manager.io/cluster-issuer: letsencrypt-prod-dns01
+      cert-manager.io/cluster-issuer: letsencrypt-staging
       acme.cert-manager.io/http01-edit-in-place: "true"
     hosts: 
       - "argocd.${var.domain_name}"

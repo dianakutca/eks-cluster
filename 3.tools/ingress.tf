@@ -98,18 +98,20 @@ module "ingress-terraform-helm" {
   chart                = "ingress-nginx"
   chart_version        = var.ingress-controller-config["chart_version"]
   repository           = "https://kubernetes.github.io/ingress-nginx"
-
   values_yaml          = <<EOF
 controller:
   kind: Deployment
   service:
     annotations:
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
       service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
       service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
       service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
     enableHttp: true
     enableHttps: true
     type: LoadBalancer
+defaultBackend:
+  enabled: true
     
 EOF
 }

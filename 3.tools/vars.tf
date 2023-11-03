@@ -90,6 +90,6 @@ variable "argo-config" {
   description = "Please define argo configurations"
   default = {
     deployment_name = "argo"
-    chart_version   = "5.20.5"
+    chart_version   = "5.50.1"
   }
 }

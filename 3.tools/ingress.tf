@@ -103,16 +103,19 @@ controller:
   kind: Deployment
   service:
     annotations:
-      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
       service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
       service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
       service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+      nginx.ingress.kubernetes.io/rewrite-target: "/"
+
     enableHttp: true
     enableHttps: true
     type: LoadBalancer
 defaultBackend:
   enabled: true
-    
+  sslRedirect: false
+  sslPassthrough: true
 EOF
 }
 

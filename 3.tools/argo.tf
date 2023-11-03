@@ -50,16 +50,20 @@ server:
     annotations: 
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       acme.cert-manager.io/http01-edit-in-place: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     hosts: 
       - "argocd.${var.domain_name}"
+    paths:
+      - /
+    pathType: Prefix
     tls: 
       - secretName: argo-tls
         hosts:
           - "argocd.${var.domain_name}"
+    https: false
   EOF
 }
 
@@ -73,3 +77,9 @@ module "argo-rollouts-terraform-helm" {
   values_yaml          = <<-EOF
   EOF
 }
+
+
+# nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+#if not working - delete this annotation - view the ceriticate kubectl get certificate -n argocd 
+#once cert is in true status and you have web error "site cannot be reached,too many redirections" - add this annotation again
+#

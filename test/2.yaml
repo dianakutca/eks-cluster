@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-secret
+spec:
+  containers:
+  - name: nginx-secret
+    image: nginx
+    env:
+    - name: MY_VARIABLE
+      valueFrom:
+        secretKeyRef:
+          name: some-secret
+          key: key2

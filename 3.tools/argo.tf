@@ -82,4 +82,5 @@ module "argo-rollouts-terraform-helm" {
 # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 #if not working - delete this annotation - view the ceriticate kubectl get certificate -n argocd 
 #once cert is in true status and you have web error "site cannot be reached,too many redirections" - add this annotation again
-#
+#      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+

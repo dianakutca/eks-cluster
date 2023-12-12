@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kiali-ingress
+  namespace: istio-system
+  annotations:
+    kubernetes.io/ingress.class: "nginx" # or your Ingress controller
+    cert-manager.io/cluster-issuer: "letsencrypt-prod" # Change to your issuer
+spec:
+  tls:
+  - hosts:
+    - "kiali.treenetsolution.com"
+    secretName: kiali-tls
+  rules:
+  - host: "kiali.treenetsolution.com"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kiali
+            port:
+              number: 20001

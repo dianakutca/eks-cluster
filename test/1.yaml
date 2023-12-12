@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-cache
+  namespace: web
+spec:
+  containers:
+  - name: redis-cache
+    image: lfccncf/redis:3-alpine
+    ports:
+    - containerPort: 6379
